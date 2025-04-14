@@ -1,0 +1,164 @@
+﻿<Window x:Class="wpf_pract4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Тригер властивості" Height="600" Width="600">
+    <TabControl>
+        <!-- Тригер властивості -->
+        <TabItem Header="Тригер властивості">
+            <Grid>
+                <Button Content="Наведи на мене" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="LightGray" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Orange" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </TabItem>
+
+        <!-- Тригер даних -->
+        <TabItem Header="Тригер даних">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <CheckBox Name="cbAgree" Content="Погоджуюсь" />
+                <TextBlock Margin="0,20,0,0" FontSize="24">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="Ні" />
+                            <Setter Property="Foreground" Value="Crimson" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=cbAgree, Path=IsChecked}" Value="True">
+                                    <Setter Property="Text" Value="Так" />
+                                    <Setter Property="Foreground" Value="ForestGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Тригер події -->
+        <TabItem Header="Тригер події">
+            <Grid>
+                <TextBlock Name="eventText" Text="Наведи курсор" FontSize="20"
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                                             To="30" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                                             To="20" Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </TabItem>
+
+        <!-- Мультитригер -->
+        <TabItem Header="Мультитригер">
+            <Grid>
+                <TextBox Text="Фокус + курсор" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsKeyboardFocused" Value="True"/>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </TabItem>
+
+        <!-- Мультитригер даних -->
+        <TabItem Header="Мультитригер даних">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <CheckBox Name="chkA" Content="Опція A" />
+                <CheckBox Name="chkB" Content="Опція B" />
+                <TextBlock Margin="0,20,0,0" FontSize="22">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="Не вибрано" />
+                            <Setter Property="Foreground" Value="DarkRed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=chkA, Path=IsChecked}" Value="True"/>
+                                        <Condition Binding="{Binding ElementName=chkB, Path=IsChecked}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Text" Value="Вибрано обидва" />
+                                    <Setter Property="Foreground" Value="DarkGreen" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Анімація тригерів -->
+        <TabItem Header="Анімація тригерів">
+            <Grid>
+                <Border Background="LightSkyBlue" Width="100" Height="100" BorderBrush="Blue">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation To="3" Duration="0:0:0.3"
+                                                    Storyboard.TargetProperty="BorderThickness"/>
+                                                <DoubleAnimation To="130" Duration="0:0:0.2"
+                                                    Storyboard.TargetProperty="Height"/>
+                                                <DoubleAnimation To="130" Duration="0:0:0.2"
+                                                    Storyboard.TargetProperty="Width"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation To="0" Duration="0:0:0.2"
+                                                    Storyboard.TargetProperty="BorderThickness"/>
+                                                <DoubleAnimation To="100" Duration="0:0:0.15"
+                                                    Storyboard.TargetProperty="Height"/>
+                                                <DoubleAnimation To="100" Duration="0:0:0.15"
+                                                    Storyboard.TargetProperty="Width"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
